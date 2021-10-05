@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Evgeny  Danilov](https://up.htmlacademy.ru/javascript/24/user/1888481).
-* Наставник: [Максим Прусаков](https://htmlacademy.ru/hikikomori).
+* Наставник: [Максим Прусаков](https://htmlacademy.ru/profile/hikikomori).
 
 
 ---
