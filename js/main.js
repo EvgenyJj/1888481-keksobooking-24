@@ -2,7 +2,7 @@
 
 function getRandomIntFromRange (from, to) {
   if (from >= to) {
-    return new Error(' Не верно указан диапазон: значение "от" первышет или равно "до" ');
+    throw new Error(' Не верно указан диапазон: значение "от" первышет или равно "до" ');
   }
   from = Math.ceil(from);
   to = Math.floor(to);
@@ -14,9 +14,9 @@ getRandomIntFromRange(0, 199);
 
 function getRandomIntFloat (from, to, decimalPlaces) {
   if (from >= to) {
-    return new Error(' Не верно указан диапазон: значение "от" первышет или равно "до" ');
+    throw new Error(' Не верно указан диапазон: значение "от" первышет или равно "до" ');
   }
-  const result = Math.random() * (to - from + 1) + from;
-  return result.toFixed(decimalPlaces);
+  const result = Math.random() * (to - from) + from;
+  return Number(result.toFixed(decimalPlaces));
 }
-getRandomIntFloat(0, 199, 3);
+getRandomIntFloat(1.1, 1.2, 2);
