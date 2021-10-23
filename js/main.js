@@ -1,30 +1,25 @@
 //Функция, возвращающая случайное целое число из переданного диапазона включительно.
 //Функция взята из интернета и доработана
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
-
-function getRandomPositiveInteger (a, b) {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+function getRandomPositiveInteger (from, to) {
+  const lower = Math.ceil(Math.min(Math.abs(from), Math.abs(to)));
+  const upper = Math.floor(Math.max(Math.abs(from), Math.abs(to)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-};
-
+}
+getRandomPositiveInteger();
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 // Функция взята из интернета и доработана
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
-
-function getRandomPositiveFloat (a, b, digits = 1) {
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
+function getRandomPositiveFloat (from, to, digits = 1) {
+  const lower = Math.min(Math.abs(from), Math.abs(to));
+  const upper = Math.max(Math.abs(from), Math.abs(to));
   const result = Math.random() * (upper - lower) + lower;
   return result.toFixed(digits);
-};
-
-const getRandomArrayElement = (elements) => {
-  return elements[_.random(0, elements.length - 1)];
-};
-
-const TITLE = [
+}
+getRandomPositiveFloat();
+const getRandomArrayElement = (elements) => elements[_.random(0, elements.length - 1)];
+const TITLES = [
   'Супер крутой заголовок',
   'Заголовок покруче',
   'Простецкий заголовок',
@@ -34,9 +29,8 @@ const TITLE = [
   'Но с этим, наверное, что-то можно сделать',
   'А ведь ещё описание придумывать..',
   'Будет интересно',
-  'Наверное'
+  'Наверное',
 ];
-
 const MIN_LAT = 35.65000;
 const MAX_LAT = 35.70000;
 const MIN_LNG = 139.70000;
@@ -49,31 +43,30 @@ const MAX_ROOMS = 100;
 const MIN_GUESTS = 1;
 const MAX_GUESTS = 100;
 const NUMBERS_OF_OFFERS = 10;
+const SIMILAR_NUMBER_MIN = 1;
+const SIMILAR_NUMBER_MAX = 10;
 
-const TYPE = [
+const TYPES = [
   'palace',
   'flat',
   'house',
   'bungalow',
-  'hotel'
+  'hotel',
 ];
-
-const CHECKIN_OUT = [
+const CHECKIN_OUTS = [
   '12:00',
   '13:00',
-  '14:00'
+  '14:00',
 ];
-
 const FEATURES = [
   'wifi',
   'dishwasher',
-  'parcking',
+  'parking',
   'washer',
   'elevator',
-  'conditioner'
+  'conditioner',
 ];
-
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'Что ж, пришло время описнания',
   'Как будет время и придумаю',
   'Исправлю это всё',
@@ -83,76 +76,76 @@ const DESCRIPTION = [
   'Ещё три',
   'Два',
   'Один',
-  'Закончился..'
+  'Закончился..',
 ];
-
 const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-
 const LOCATION = {
   lat: {
     min: MIN_LAT,
-    max: MAX_LAT
+    max: MAX_LAT,
   },
   lng: {
     min: MIN_LNG,
-    max: MAX_LNG
+    max: MAX_LNG,
   },
-  round: DIGITS
+  round: DIGITS,
 };
-
-const NUMBERS_OF_USERS = 10;
-const USER_NUMBER = [];
-for (let i = 1; i <= NUMBERS_OF_USERS; i++) {
-  if (i < 10) {
-    i = `0${i}`;
-  };
-  USER_NUMBER.push(i);
-};
-
-const createAuthor = () => {
-  const NUMBER = USER_NUMBER.shift();
-  return {
-    avatar: `img/avatars/user${NUMBER}.png`
+const createIdGeneratorFromRange = (min, max) => {
+  const previousValues = [];
+  return function () {
+    let currentValue = getRandomPositiveInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      throw new Error('Перебраны все числа из диапазона');
+    };
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomIntInclusive(min, max);
+    };
+    previousValues.push(currentValue);
+    return currentValue;
   };
 };
-
+const getPhotoId = createIdGeneratorFromRange(SIMILAR_NUMBER_MIN, SIMILAR_NUMBER_MAX);
+const createAvatarId = () => {
+  const avatarId = getPhotoId();
+  return String(avatarId).padStart(2, '0');
+};
 const createArrayOfRandomLengths = (array) => {
   const randomLength = getRandomPositiveInteger(1, array.length);
   return _.shuffle(array).slice(0, randomLength);
 };
-
+const createAuthor = () => ({
+  avtar: `img/avatars/user${createAvatarId()}.png`,
+});
 const createLocation = () => ({
   lat: getRandomPositiveFloat(LOCATION.lat.min, LOCATION.lat.max, LOCATION.round),
-  lng: getRandomPositiveFloat(LOCATION.lng.min, LOCATION.lng.max, LOCATION.round)
+  lng: getRandomPositiveFloat(LOCATION.lng.min, LOCATION.lng.max, LOCATION.round),
 });
-
 const createOffer = (location) => ({
-  title: getRandomArrayElement(TITLE),
+  title: getRandomArrayElement(TITLES),
   address: `${location.lat}, ${location.lng}`,
   price: getRandomPositiveInteger(MIN_PRICE, MAX_PRICE),
-  type: getRandomArrayElement(TYPE),
+  type: getRandomArrayElement(TYPES),
   rooms: getRandomPositiveInteger(MIN_ROOMS, MAX_ROOMS),
   guests: getRandomPositiveInteger(MIN_GUESTS, MAX_GUESTS),
-  checkin: getRandomArrayElement(CHECKIN_OUT),
-  checkout: getRandomArrayElement(CHECKIN_OUT),
+  checkin: getRandomArrayElement(CHECKIN_OUTS),
+  checkout: getRandomArrayElement(CHECKIN_OUTS),
   features: createArrayOfRandomLengths(FEATURES),
-  description: getRandomArrayElement(DESCRIPTION),
-  photos: createArrayOfRandomLengths(PHOTOS)
+  description: getRandomArrayElement(DESCRIPTIONS),
+  photos: createArrayOfRandomLengths(PHOTOS),
 });
-
 const createAnnouncement = () => {
-  const newLocation = createLocation();
-  const newAuthor = createAuthor();
-  const newOffer = createOffer(newLocation);
+  const location = createLocation();
+  const author = createAuthor();
+  const offer = createOffer(location);
   return {
-    author: newAuthor,
-    offer: newOffer,
-    location: newLocation
+    author: author,
+    offer: offer,
+    location: location,
   };
 };
-
-const descriprionSimilarAd = Array.from({length: NUMBERS_OF_OFFERS}, createAnnouncement);
+const descriptonSimilarAd = Array.from({length: NUMBERS_OF_OFFERS}, createAnnouncement);
+descriptonSimilarAd;
