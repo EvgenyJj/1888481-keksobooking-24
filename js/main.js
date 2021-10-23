@@ -100,10 +100,10 @@ const createIdGeneratorFromRange = (min, max) => {
     let currentValue = getRandomPositiveInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
       throw new Error('Перебраны все числа из диапазона');
-    };
+    }
     while (previousValues.includes(currentValue)) {
       currentValue = getRandomPositiveInteger(min, max);
-    };
+    }
     previousValues.push(currentValue);
     return currentValue;
   };
