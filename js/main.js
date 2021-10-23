@@ -102,7 +102,7 @@ const createIdGeneratorFromRange = (min, max) => {
       throw new Error('Перебраны все числа из диапазона');
     };
     while (previousValues.includes(currentValue)) {
-      currentValue = getRandomIntInclusive(min, max);
+      currentValue = getRandomPositiveInteger(min, max);
     };
     previousValues.push(currentValue);
     return currentValue;
