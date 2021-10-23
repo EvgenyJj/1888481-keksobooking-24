@@ -7,7 +7,7 @@ function getRandomPositiveInteger (from, to) {
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 }
-getRandomPositiveInteger();
+getRandomPositiveInteger(0, 10);
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 // Функция взята из интернета и доработана
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
@@ -17,7 +17,7 @@ function getRandomPositiveFloat (from, to, digits = 1) {
   const result = Math.random() * (upper - lower) + lower;
   return result.toFixed(digits);
 }
-getRandomPositiveFloat();
+getRandomPositiveFloat(1.1, 1.2, 2);
 const getRandomArrayElement = (elements) => elements[_.random(0, elements.length - 1)];
 const TITLES = [
   'Супер крутой заголовок',
@@ -142,9 +142,9 @@ const createAnnouncement = () => {
   const author = createAuthor();
   const offer = createOffer(location);
   return {
-    author: author,
-    offer: offer,
-    location: location,
+    author,
+    offer,
+    location,
   };
 };
 const descriptonSimilarAd = Array.from({length: NUMBERS_OF_OFFERS}, createAnnouncement);
