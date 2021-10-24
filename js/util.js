@@ -14,5 +14,6 @@ export function getRandomPositiveFloat (min, max, digits = 1) {
 }
 getRandomPositiveFloat(1.1, 1.2, 2);
 
-export const getRandomArrayElement = (elements) => elements[_.random(0, elements.length - 1)];
-getRandomArrayElement();
+export const getRandomArrayElement = function (elements) {
+  return elements[getRandomPositiveInteger(0, elements.length - 1)];
+};
