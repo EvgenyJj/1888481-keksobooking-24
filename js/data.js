@@ -128,5 +128,6 @@ const createAnnouncement = () => {
     location,
   };
 };
-export const descriptonSimilarAd = Array.from({length: NUMBERS_OF_OFFERS}, createAnnouncement);
-descriptonSimilarAd;
+const similarAdsData = Array.from({length: NUMBERS_OF_OFFERS}, createAnnouncement);
+similarAdsData;
+export {NUMBERS_OF_OFFERS, createAnnouncement};
