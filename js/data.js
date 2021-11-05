@@ -99,7 +99,7 @@ const createArrayOfRandomLengths = (array) => {
   return _.shuffle(array).slice(0, randomLength);
 };
 const createAuthor = () => ({
-  avtar: `img/avatars/user${createAvatarId()}.png`,
+  avatar: `img/avatars/user${createAvatarId()}.png`,
 });
 const createLocation = () => ({
   lat: getRandomPositiveFloat(LOCATION.lat.min, LOCATION.lat.max, LOCATION.round),
