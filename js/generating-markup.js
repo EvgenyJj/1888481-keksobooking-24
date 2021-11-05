@@ -67,7 +67,7 @@ export const createCard = ({author, offer}) => {
     typeElement.textContent = offerTypes[offer.type];
   }
   const capacityElement = userCard.querySelector('.popup__text--capacity');
-  if (!`${offer.rooms } комнаты для ${ offer.guests } гостей` || !`${offer.rooms } комнаты для ${ offer.guests } гостей`.length) {
+  if (!offer.rooms && !offer.guests) {
     capacityElement.remove();
   } else {
     capacityElement.textContent = `${offer.rooms } комнаты для ${ offer.guests } гостей`;
