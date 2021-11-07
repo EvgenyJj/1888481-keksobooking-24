@@ -9,7 +9,7 @@ const formTitle = adForm.querySelector('#title');
 const formRooms = adForm.querySelector('#room_number');
 const formCapacity = adForm.querySelector('#capacity');
 
-formTitle.addEventListener('input', () => {
+const onTitleInput = () => {
   const valueLength = formTitle.value.length;
   if (valueLength < MIN_TITLE_LENGTH) {
     formTitle.setCustomValidity(`Ещё ${ MIN_TITLE_LENGTH - valueLength } симв.`);
@@ -21,7 +21,7 @@ formTitle.addEventListener('input', () => {
     formTitle.setCustomValidity('');
   }
   formTitle.reportValidity();
-});
+};
 
 const checkCapacity = () => {
   const rooms = Number(formRooms.value);
@@ -37,6 +37,8 @@ const checkCapacity = () => {
   }
   formCapacity.reportValidity();
 };
-
-formCapacity.addEventListener('change', checkCapacity);
-formRooms.addEventListener('change', checkCapacity);
+export const validateForm = () => {
+  formTitle.addEventListener('input', onTitleInput);
+  formCapacity.addEventListener('change', checkCapacity);
+  formRooms.addEventListener('change', checkCapacity);
+};
