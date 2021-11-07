@@ -37,10 +37,26 @@ const checkCapacity = () => {
   }
   formCapacity.reportValidity();
 };
+
+const checkRooms = () => {
+  const rooms = Number(formRooms.value);
+  const guests = Number(formCapacity.value);
+  if (rooms < guests) {
+    formRooms.setCustomValidity('Неподходящий вариант, выберите другой. Комнат меньше, чем гостей.');
+  } else if (rooms === MAX_ROOMS && guests !== 0) {
+    formRooms.setCustomValidity('Неподходящий вариант, выберите другой.(100 комнат - не для гостей)');
+  } else if (guests === 0 && rooms !== MAX_ROOMS) {
+    formRooms.setCustomValidity('Неподходящий вариант, выберите другой.(Не для гостей - 100 комнат)');
+  } else {
+    formRooms.setCustomValidity('');
+  }
+  formRooms.reportValidity();
+};
 const onCapacityChange = () => checkCapacity();
+const onRoomsChange = () => checkRooms();
 
 export const validateForm = () => {
   formTitle.addEventListener('input', onTitleInput);
   formCapacity.addEventListener('change', onCapacityChange);
-  formRooms.addEventListener('change', onCapacityChange);
+  formRooms.addEventListener('change', onRoomsChange);
 };
