@@ -39,4 +39,4 @@ const checkCapacity = () => {
 };
 
 formCapacity.addEventListener('change', checkCapacity);
-formRooms.addEventListener('chancg', checkCapacity);
+formRooms.addEventListener('change', checkCapacity);
