@@ -13,11 +13,11 @@ const formTimeIn = adForm.querySelector('#timein');
 const formTimeOut = adForm.querySelector('#timeout');
 
 const minPriceTypeHousing = {
-  bungalow: '0',
-  flat: '1000',
-  hotel: '3000',
-  house: '5000',
-  palace: '10000',
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 
 const onTitleInput = () => {
@@ -88,14 +88,6 @@ const onPriceChange = () => minPriceChange();
 const onTimeInChange = () => formTimeOut.value = formTimeIn.value;
 const onTimeOutChange = () => formTimeIn.value = formTimeOut.value;
 
-const fieldsSynchr = () => {
-  onCapacityChange();
-  onRoomsChange();
-  onPriceChange();
-  onTimeInChange();
-  onTimeOutChange();
-};
-
 export const validateForm = () => {
   formTitle.addEventListener('input', onTitleInput);
   formCapacity.addEventListener('change', onCapacityChange);
@@ -104,5 +96,4 @@ export const validateForm = () => {
   formType.addEventListener('change', onPriceChange);
   formTimeIn.addEventListener('change', onTimeInChange);
   formTimeOut.addEventListener('change', onTimeOutChange);
-  fieldsSynchr();
 };
