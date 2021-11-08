@@ -42,7 +42,7 @@ const checkCapacity = () => {
   } else if (rooms === MAX_ROOMS && guests !== 0) {
     formCapacity.setCustomValidity('Неподходящий вариант, выберите другой.(100 комнат - не для гостей)');
   } else if (rooms !== MAX_ROOMS && guests === 0) {
-    formCapacity.setCustomValidity('Неподходящий вариант, выберите другой.(Не для гостей - 100 комнат)')
+    formCapacity.setCustomValidity('Неподходящий вариант, выберите другой.(Не для гостей - 100 комнат)');
   } else {
     formCapacity.setCustomValidity('');
   }
