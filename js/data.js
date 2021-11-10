@@ -129,4 +129,4 @@ const createAnnouncement = () => {
   };
 };
 
-export {NUMBERS_OF_OFFERS, createAnnouncement};
+export const similarAdsData = Array.from({length: NUMBERS_OF_OFFERS}, createAnnouncement);
