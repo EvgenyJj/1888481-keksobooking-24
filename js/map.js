@@ -3,9 +3,18 @@ import {createCard} from './card.js';
 import {makeInactive, makeActive} from './form.js';
 makeInactive();
 
-const MAP_CENTER = {
-  lat: 35.67417,
-  lng: 139.75712,
+const MAP_CENTER_LAT = 35.67417;
+const MAP_CENTER_LNG = 139.75712;
+const MAP_ZOOM = 14;
+
+const  MainPin = {
+  WIDTH: 52,
+  HEIGHT: 52,
+};
+const Pin = {
+  WIDTH: 40,
+  HEIGHT: 40,
+
 };
 
 const addressAd = document.querySelector('#address');
@@ -13,7 +22,10 @@ const map = L.map('map-canvas')
   .on('load', () => {
     makeActive();
   })
-  .setView(MAP_CENTER, 10);
+  .setView({
+    lat: MAP_CENTER_LAT,
+    lng: MAP_CENTER_LNG,
+  }, MAP_ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -24,19 +36,22 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [MainPin.WIDTH, MainPin.HEIGHT],
+  iconAnchor: [MainPin.WIDTH / 2, MainPin.HEIGHT],
 });
 
-const mainPinMarker = L.marker(
-  MAP_CENTER, {
-    draggable: true,
-    icon: mainPinIcon,
-  },
+const mainPinMarker = L.marker({
+  lat: MAP_CENTER_LAT,
+  lng: MAP_CENTER_LNG,
+},
+{
+  draggable: true,
+  icon: mainPinIcon,
+},
 );
 mainPinMarker.addTo(map);
 
-addressAd.value = `${MAP_CENTER.lat}, ${MAP_CENTER.lng}`;
+addressAd.value = `${MAP_CENTER_LAT}, ${MAP_CENTER_LNG}`;
 
 mainPinMarker.on('moveend', (evt) => {
   const coordinates = evt.target.getLatLng();
@@ -46,12 +61,13 @@ mainPinMarker.on('moveend', (evt) => {
 });
 
 similarAdsData.forEach((ad) => {
+  const lat = ad.location.lat;
+  const lng = ad.location.lng;
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: [Pin.WIDTH, Pin.HEIGHT],
+    iconAnchor: [Pin.WIDTH / 2, Pin.HEIGHT],
   });
-  const {location: {lat, lng}} = ad;
   const marker = L.marker({
     lat,
     lng,
