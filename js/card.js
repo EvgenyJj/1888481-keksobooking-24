@@ -55,7 +55,7 @@ export const createCard = ({author, offer}) => {
     addressElement.textContent = offer.address;
   }
   const priceElement = userCard.querySelector('.popup__text--price');
-  if (offer.price) {
+  if (!offer.price) {
     priceElement.remove();
   } else {
     priceElement.textContent = `${offer.price} ₽/ночь`;
