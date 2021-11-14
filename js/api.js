@@ -1,6 +1,6 @@
 const URL = 'https://24.javascript.pages.academy/keksobooking';
 
-const getData = (onSuccess, onFail) => () => {
+const getData = (onSuccess, onFail) => {
   fetch(
     `${URL}/data`,
     {
