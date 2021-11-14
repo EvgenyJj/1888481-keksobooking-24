@@ -69,20 +69,29 @@ const setAddressValue = () => {
     address.value = `${coordinateLat}, ${coordinateLng}`;
   });
 };
-createCard((ad) => {
-  const lat = ad.location.lat;
-  const lng = ad.location.lng;
+const createMarker = (point) => {
+  const {lat, lng} = point.location;
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [Pin.WIDTH, Pin.HEIGHT],
     iconAnchor: [Pin.WIDTH / 2, Pin.HEIGHT],
   });
-  const marker = L.marker({
-    lat,
-    lng,
-  },
-  {
-    icon,
+  L.marker({lat, lng}, {icon}).addTo(markerGroup).bindPopup(createCard(point));
+};
+export const renderMarkers = (points) => points.forEach(createMarker);
+const onDataLoad = (ads) => {
+  renderMarkers(ads.slice(0, AMOUNT));
+};
+
+const onDataFail = () => {
+  showAlert();
+};
+export const mapInitialization = () => {
+  setDefault();
+  map.whenReady(() => {
+    makeActive();
+    getData(onDataLoad, onDataFail);
   });
-  marker.addTo(map).bindPopup(createCard(ad));
-});
+  mainPinMarker.addTo(map);
+  setAddressValue();
+};
