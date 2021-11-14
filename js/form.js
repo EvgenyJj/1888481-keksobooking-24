@@ -14,6 +14,7 @@ const renderMessage = (node) => {
     node.remove();
     document.removeEventListener('keydown', onDocumentKeyDown);
   };
+
   function onDocumentKeyDown(evt) {
     if (isEscKey(evt)) {
       onClose();

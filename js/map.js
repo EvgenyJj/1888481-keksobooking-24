@@ -23,11 +23,14 @@ const Pin = {
 const AMOUNT = 10;
 
 const address = document.querySelector('#address');
+const mapCanvas = document.querySelector('.map__canvas');
+
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [MainPin.WIDTH, MainPin.HEIGHT],
   iconAnchor: [MainPin.WIDTH / 2, MainPin.HEIGHT],
 });
+
 const mainPinMarker = L.marker({
   lat: MapDefault.LAT,
   lng: MapDefault.LNG,
@@ -37,7 +40,8 @@ const mainPinMarker = L.marker({
   icon: mainPinIcon,
 },
 );
-const map = L.map('map-canvas')
+
+const map = L.map(mapCanvas)
   .setView({
     lat: MapDefault.LAT,
     lng: MapDefault.LNG,
@@ -48,7 +52,9 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
 const markerGroup = L.layerGroup().addTo(map);
+
 export const setDefault = () => {
   mainPinMarker.setLatLng({
     lat: MapDefault.LAT,
@@ -59,8 +65,9 @@ export const setDefault = () => {
     lng: MapDefault.LNG,
   }, MapDefault.ZOOM);
   map.closePopup();
-  address.value = `${MapDefault.LAT.toFixed(5)}, ${MapDefault.LNG.toFixed(5)}`;
+  address.value = `${MapDefault.LAT}, ${MapDefault.LNG}`;
 };
+
 const setAddressValue = () => {
   mainPinMarker.on('moveend', (evt) => {
     const coordinates = evt.target.getLatLng();
@@ -69,8 +76,10 @@ const setAddressValue = () => {
     address.value = `${coordinateLat}, ${coordinateLng}`;
   });
 };
+
 const createMarker = (point) => {
   const {lat, lng} = point.location;
+
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [Pin.WIDTH, Pin.HEIGHT],
@@ -78,13 +87,15 @@ const createMarker = (point) => {
   });
   L.marker({lat, lng}, {icon}).addTo(markerGroup).bindPopup(createCard(point));
 };
+
 export const renderMarkers = (points) => points.forEach(createMarker);
+
 const onDataLoad = (ads) => {
   renderMarkers(ads.slice(0, AMOUNT));
 };
 
 const onDataFail = () => {
-  showAlert();
+  showAlert('Ошибка загрузки данных!');
 };
 export const mapInitialization = () => {
   setDefault();

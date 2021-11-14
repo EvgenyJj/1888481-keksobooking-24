@@ -1,21 +1,11 @@
 const URL = 'https://24.javascript.pages.academy/keksobooking';
-
 const getData = (onSuccess, onFail) => {
-  fetch(
-    `${URL}/data`,
-    {
-      method: 'GET',
-    },
-  )
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
+  fetch(`${URL}/data`)
+    .then((response) => response.json())
+    .then((data) => {
+      onSuccess(data);
     })
-    .then(() => onSuccess())
-    .catch(() => {
-      onFail();
-    });
+    .catch(() => onFail());
 };
 
 const sendData = (onSuccess, onFail, body) => {
@@ -36,8 +26,4 @@ const sendData = (onSuccess, onFail, body) => {
       onFail();
     });
 };
-
-export {
-  getData,
-  sendData
-};
+export {getData, sendData};
