@@ -1,22 +1,59 @@
+import {sendData} from './api.js';
+import {setDefault} from './map.js';
+
+
 const adForm = document.querySelector('.ad-form');
-const filters = document.querySelector('.map__filters');
+const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+const resetButton = adForm.querySelector('.ad-form__reset');
 
-const disableInput = (input, inputClass) => {
-  input.classList.add(`${inputClass}--disabled`);
-  Array.from(input.children).forEach((element) => element.disabled = true);
+const isEscKey = (evt) => evt.key === 'Escape';
+
+const renderMessage = (node) => {
+  const onClose = () => {
+    node.remove();
+    document.removeEventListener('keydown', onDocumentKeyDown);
+  };
+  function onDocumentKeyDown(evt) {
+    if (isEscKey(evt)) {
+      onClose();
+    }
+  }
+
+  const onNodeClick = () => onClose();
+  node.addEventListener('click', onNodeClick);
+  document.addEventListener('keydown', onDocumentKeyDown);
 };
 
-const enableInput  = (input, inputClass) => {
-  input.classList.remove(`${inputClass}--disabled`);
-  Array.from(input.children).forEach((element) => element.disabled = false);
+export const onFormReset = () => {
+  resetButton.addEventListener('click', () => {
+    adForm.reset();
+    setDefault();
+  });
 };
 
-export const makeInactive = () => {
-  disableInput(adForm, 'ad-form');
-  disableInput(filters, 'map__filters');
+const showSuccessMessage = () => {
+  const success = successMessageTemplate.cloneNode(true);
+  document.body.appendChild(success);
+  renderMessage(success);
 };
 
-export const makeActive = () => {
-  enableInput(adForm, 'ad-form');
-  enableInput(filters, 'map__filters');
+const showErrorMessage = () => {
+  const error = errorMessageTemplate.cloneNode(true);
+  document.body.appendChild(error);
+  renderMessage(error);
+};
+
+const onSendSuccess = () => {
+  showSuccessMessage();
+  adForm.reset();
+  setDefault();
+};
+
+export const onFormSubmit = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+    sendData(onSendSuccess, showErrorMessage, formData);
+  });
 };

@@ -1,11 +1,14 @@
-import {similarAdsData} from './data.js';
 import {createCard} from './card.js';
-import {makeInactive, makeActive} from './form.js';
+import {getData} from './api.js';
+import {makeInactive, makeActive} from './activation.js';
+import {showAlert} from './util.js';
 makeInactive();
 
-const MAP_CENTER_LAT = 35.67417;
-const MAP_CENTER_LNG = 139.75712;
-const MAP_ZOOM = 14;
+const MapDefault = {
+  LAT: 35.67417,
+  LNG: 139.75712,
+  ZOOM: 13,
+};
 
 const  MainPin = {
   WIDTH: 52,
@@ -17,50 +20,56 @@ const Pin = {
 
 };
 
-const addressAd = document.querySelector('#address');
-const map = L.map('map-canvas')
-  .on('load', () => {
-    makeActive();
-  })
-  .setView({
-    lat: MAP_CENTER_LAT,
-    lng: MAP_CENTER_LNG,
-  }, MAP_ZOOM);
+const AMOUNT = 10;
 
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
-
+const address = document.querySelector('#address');
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [MainPin.WIDTH, MainPin.HEIGHT],
   iconAnchor: [MainPin.WIDTH / 2, MainPin.HEIGHT],
 });
-
 const mainPinMarker = L.marker({
-  lat: MAP_CENTER_LAT,
-  lng: MAP_CENTER_LNG,
+  lat: MapDefault.LAT,
+  lng: MapDefault.LNG,
 },
 {
   draggable: true,
   icon: mainPinIcon,
 },
 );
-mainPinMarker.addTo(map);
-
-addressAd.value = `${MAP_CENTER_LAT}, ${MAP_CENTER_LNG}`;
-
-mainPinMarker.on('moveend', (evt) => {
-  const coordinates = evt.target.getLatLng();
-  const coordinateLat = coordinates.lat.toFixed(5);
-  const coordinateLng = coordinates.lng.toFixed(5);
-  addressAd.value = `${coordinateLat}, ${coordinateLng}`;
-});
-
-similarAdsData.forEach((ad) => {
+const map = L.map('map-canvas')
+  .setView({
+    lat: MapDefault.LAT,
+    lng: MapDefault.LNG,
+  },  MapDefault.ZOOM);
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
+const markerGroup = L.layerGroup().addTo(map);
+export const setDefault = () => {
+  mainPinMarker.setLatLng({
+    lat: MapDefault.LAT,
+    lng: MapDefault.LNG,
+  });
+  map.setView({
+    lat: MapDefault.LAT,
+    lng: MapDefault.LNG,
+  }, MapDefault.ZOOM);
+  map.closePopup();
+  address.value = `${MapDefault.LAT.toFixed(5)}, ${MapDefault.LNG.toFixed(5)}`;
+};
+const setAddressValue = () => {
+  mainPinMarker.on('moveend', (evt) => {
+    const coordinates = evt.target.getLatLng();
+    const coordinateLat = coordinates.lat.toFixed(5);
+    const coordinateLng = coordinates.lng.toFixed(5);
+    address.value = `${coordinateLat}, ${coordinateLng}`;
+  });
+};
+createCard((ad) => {
   const lat = ad.location.lat;
   const lng = ad.location.lng;
   const icon = L.icon({
