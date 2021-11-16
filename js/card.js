@@ -48,22 +48,48 @@ export const createCard = ({author, offer}) => {
   const userCard = cardPopup.cloneNode(true);
 
   const titleElement = userCard.querySelector('.popup__title');
-  titleElement.textContent = title;
+  if  (!offer.title) {
+    titleElement.remove();
+  } else {
+    titleElement.textContent = title;
+  }
 
   const addressElement = userCard.querySelector('.popup__text--address');
-  addressElement.textContent = address;
+  if (!offer.address) {
+    addressElement.remove();
+  } else {
+    addressElement.textContent = address;
+  }
 
   const priceElement = userCard.querySelector('.popup__text--price');
-  priceElement.textContent = `${price} ₽/ночь`;
+  if (!offer.address) {
+    addressElement.remove();
+  } else {
+    addressElement.textContent = offer.address;
+
+    priceElement.textContent = `${price} ₽/ночь`;
+  }
 
   const typeElement = userCard.querySelector('.popup__type');
-  typeElement.textContent = offerTypes[type];
+  if (!offer.type) {
+    typeElement.remove();
+  } else {
+    typeElement.textContent = offerTypes[type];
+  }
 
   const capacityElement = userCard.querySelector('.popup__text--capacity');
-  capacityElement.textContent = `${rooms } комнаты для ${ guests } гостей`;
+  if (!offer.rooms || !offer.guests) {
+    capacityElement.remove();
+  } else {
+    capacityElement.textContent = `${rooms } комнаты для ${ guests } гостей`;
+  }
 
   const timeElement = userCard.querySelector('.popup__text--time');
-  timeElement.textContent = `Заезд после ${checkin}, выезд до ${ checkout}`;
+  if (!offer.checkin || !offer.checkout) {
+    timeElement.remove();
+  } else {
+    timeElement.textContent = `Заезд после ${checkin}, выезд до ${ checkout}`;
+  }
 
   const featuresElement = userCard.querySelector('.popup__features');
   if (!features) {
@@ -74,7 +100,11 @@ export const createCard = ({author, offer}) => {
   }
 
   const descriptionElement = userCard.querySelector('.popup__description');
-  descriptionElement.textContent = description;
+  if (!offer.description) {
+    descriptionElement.remove();
+  } else {
+    descriptionElement.textContent = description;
+  }
 
   const photosElement = userCard.querySelector('.popup__photos');
   const photoElement = userCard.querySelector('.popup__photo');

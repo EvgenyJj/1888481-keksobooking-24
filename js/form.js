@@ -27,7 +27,8 @@ const renderMessage = (node) => {
 };
 
 export const onFormReset = () => {
-  resetButton.addEventListener('click', () => {
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
     adForm.reset();
     setDefault();
   });
