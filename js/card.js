@@ -116,7 +116,11 @@ export const createCard = ({author, offer}) => {
   }
 
   const avatarElement = userCard.querySelector('.popup__avatar');
-  avatarElement.src = avatar;
+  if (!author.avatar) {
+    avatarElement.remove();
+  } else {
+    avatarElement.src = avatar;
+  }
 
   return userCard;
 };
