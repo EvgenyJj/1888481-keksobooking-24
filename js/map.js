@@ -1,7 +1,8 @@
 import {createCard} from './card.js';
 import {getData} from './api.js';
 import {makeInactive, makeActive} from './activation.js';
-import {showAlert} from './util.js';
+import {showAlert} from './utils.js';
+import {setFiltersListener} from './filters.js';
 makeInactive();
 
 const MapDefault = {
@@ -90,8 +91,11 @@ const createMarker = (point) => {
 
 export const renderMarkers = (points) => points.forEach(createMarker);
 
+export const clearMarkers = () => markerGroup.clearLayers();
+
 const onDataLoad = (ads) => {
   renderMarkers(ads.slice(0, AMOUNT));
+  setFiltersListener(ads);
 };
 
 const onDataFail = () => {

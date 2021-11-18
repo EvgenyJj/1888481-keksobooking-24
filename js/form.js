@@ -1,11 +1,13 @@
 import {sendData} from './api.js';
 import {setDefault} from './map.js';
+import {minPriceChange, checkCapacity, checkRooms} from './form-validation.js';
 
 
 const adForm = document.querySelector('.ad-form');
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 const resetButton = adForm.querySelector('.ad-form__reset');
+const mapFilters = document.querySelector('.map__filters');
 
 const isEscKey = (evt) => evt.key === 'Escape';
 
@@ -30,6 +32,8 @@ export const onFormReset = () => {
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     adForm.reset();
+    mapFilters.reset();
+    minPriceChange();
     setDefault();
   });
 };
@@ -49,13 +53,19 @@ const showErrorMessage = () => {
 const onSendSuccess = () => {
   showSuccessMessage();
   adForm.reset();
+  mapFilters.reset();
+  minPriceChange();
   setDefault();
 };
 
 export const onFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
+    checkCapacity();
+    checkRooms();
     evt.preventDefault();
-    const formData = new FormData(evt.target);
-    sendData(onSendSuccess, showErrorMessage, formData);
+    if (adForm.checkValidity()) {
+      const formData = new FormData(evt.target);
+      sendData(onSendSuccess, showErrorMessage, formData);
+    }
   });
 };

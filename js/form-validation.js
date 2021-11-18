@@ -34,7 +34,7 @@ const onTitleInput = () => {
   formTitle.reportValidity();
 };
 
-const checkCapacity = () => {
+export const checkCapacity = () => {
   const rooms = Number(formRooms.value);
   const guests = Number(formCapacity.value);
   if (rooms < guests) {
@@ -49,7 +49,7 @@ const checkCapacity = () => {
   formCapacity.reportValidity();
 };
 
-const checkRooms = () => {
+export const checkRooms = () => {
   const rooms = Number(formRooms.value);
   const guests = Number(formCapacity.value);
   if (rooms < guests) {
@@ -64,7 +64,7 @@ const checkRooms = () => {
   formRooms.reportValidity();
 };
 
-const minPriceChange = () => {
+export const minPriceChange = () => {
   formPrice.min = minPriceTypeHousing[formType.value];
   formPrice.placeholder = minPriceTypeHousing[formType.value];
 };
