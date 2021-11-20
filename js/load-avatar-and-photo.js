@@ -1,6 +1,6 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const AVATAR_DEFAULT = 'img/muffin-grey.svg';
-const IMAGE_SIZE = '70px';
+const IMAGE_SIZE = '70';
 
 
 const fileChooser = document.querySelector('.ad-form-header__input');
