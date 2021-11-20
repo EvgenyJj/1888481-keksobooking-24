@@ -1,8 +1,8 @@
 import {createCard} from './card.js';
 import {getData} from './api.js';
-import {makeInactive, makeActive} from './activation.js';
-import {showAlert} from './util.js';
-makeInactive();
+import {makeActive} from './activation.js';
+import {showAlert} from './utils.js';
+import {setFiltersListener} from './filters.js';
 
 const MapDefault = {
   LAT: 35.67417,
@@ -22,6 +22,8 @@ const Pin = {
 
 const AMOUNT = 10;
 
+const adForm = document.querySelector('.ad-form');
+const mapFilters = document.querySelector('.map__filters');
 const address = document.querySelector('#address');
 const mapCanvas = document.querySelector('.map__canvas');
 
@@ -90,8 +92,12 @@ const createMarker = (point) => {
 
 export const renderMarkers = (points) => points.forEach(createMarker);
 
+export const clearMarkers = () => markerGroup.clearLayers();
+
 const onDataLoad = (ads) => {
+  makeActive(mapFilters, 'map__filters');
   renderMarkers(ads.slice(0, AMOUNT));
+  setFiltersListener(ads);
 };
 
 const onDataFail = () => {
@@ -100,7 +106,7 @@ const onDataFail = () => {
 export const mapInitialization = () => {
   setDefault();
   map.whenReady(() => {
-    makeActive();
+    makeActive(adForm, 'ad-form');
     getData(onDataLoad, onDataFail);
   });
   mainPinMarker.addTo(map);

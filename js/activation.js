@@ -16,7 +16,6 @@ export const makeInactive = () => {
   disableInput(filters, 'map__filters');
 };
 
-export const makeActive = () => {
-  enableInput(adForm, 'ad-form');
-  enableInput(filters, 'map__filters');
+export const makeActive = (input, inputClass) => {
+  enableInput(input, inputClass);
 };
