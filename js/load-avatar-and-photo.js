@@ -32,7 +32,6 @@ export const loadPhotoHousing = () => {
       photoPreview.appendChild(photoPreviewImg);
     }
     if (photoPreview === photoPreviewImg) {
-      photoPreviewImg.src = '';
       photoPreviewImg.src = URL.createObjectURL(file);
     }
   });
