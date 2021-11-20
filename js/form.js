@@ -1,7 +1,7 @@
 import {sendData} from './api.js';
 import {setDefault} from './map.js';
 import {minPriceChange, checkCapacity, checkRooms} from './form-validation.js';
-
+import {clearAvatarPhoto} from './load-avatar-and-photo.js';
 
 const adForm = document.querySelector('.ad-form');
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -33,6 +33,7 @@ export const onFormReset = () => {
     evt.preventDefault();
     adForm.reset();
     mapFilters.reset();
+    clearAvatarPhoto();
     minPriceChange();
     setDefault();
   });
