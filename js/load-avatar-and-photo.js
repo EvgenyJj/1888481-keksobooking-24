@@ -19,17 +19,21 @@ export const loadAvatar = () => {
   });
 };
 
+const photoPreviewImg = document.createElement('img');
 export const loadPhotoHousing = () => {
   fileFotoChooser.addEventListener('change', () => {
     const file = fileFotoChooser.files[0];
     const fileName = file.name.toLowerCase();
     const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
     if (matches) {
-      const photoPreviewImg = document.createElement('img');
       photoPreviewImg.width = IMAGE_SIZE;
       photoPreviewImg.height = IMAGE_SIZE;
       photoPreviewImg.src = URL.createObjectURL(file);
       photoPreview.appendChild(photoPreviewImg);
+    }
+    if (photoPreview === photoPreviewImg) {
+      photoPreviewImg.src = '';
+      photoPreviewImg.src = URL.createObjectURL(file);
     }
   });
 };
