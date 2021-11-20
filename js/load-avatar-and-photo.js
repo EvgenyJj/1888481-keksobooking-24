@@ -19,8 +19,9 @@ export const loadAvatar = () => {
   });
 };
 
-const photoPreviewImg = document.createElement('img');
+
 export const loadPhotoHousing = () => {
+  const photoPreviewImg = document.createElement('img');
   fileFotoChooser.addEventListener('change', () => {
     const file = fileFotoChooser.files[0];
     const fileName = file.name.toLowerCase();
@@ -30,9 +31,6 @@ export const loadPhotoHousing = () => {
       photoPreviewImg.height = IMAGE_SIZE;
       photoPreviewImg.src = URL.createObjectURL(file);
       photoPreview.appendChild(photoPreviewImg);
-    }
-    if (photoPreview === photoPreviewImg) {
-      photoPreviewImg.src = URL.createObjectURL(file);
     }
   });
 };
